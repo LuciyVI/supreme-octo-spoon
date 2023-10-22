@@ -6,11 +6,12 @@
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
 #include <stdlib.h>
+#include "exprtk.hpp"
 
 #define X ptr->x
 #define DEBUG
-using namespace std;
-
+// using namespace std;
+using namespace exprtk;
 
 
 struct data {
@@ -66,6 +67,31 @@ cur=cur->next;
     return 0;
 };
 
+
+int parse_string_for_func(struct data *ptr)
+{
+
+    const std::string expression_string = ptr->string_func;
+    typedef exprtk::symbol_table<double> symbol_table_t;
+    typedef exprtk::expression<double>   expression_t;
+    typedef exprtk::parser<double>       parser_t;
+    
+     double x;
+    symbol_table_t symbol_table;
+    symbol_table.add_variable("x",ptr->x);
+    symbol_table.add_constants();
+
+    expression_t expression;
+    expression.register_symbol_table(symbol_table);
+
+    parser_t parser;
+    parser.compile(expression_string,expression);
+
+    double y = expression.value();
+      printf("%19.15f\t%19.15f\n",x,y);
+    return 0;
+}
+
 int main()
 {
 
@@ -81,6 +107,7 @@ int main()
         std::cout<<data.x<<std::endl; 
         std::cout<<data.string_func<<std::endl; 
 #endif
+    parse_string_for_func(ptr_on_data);
     return 0;
 
 }

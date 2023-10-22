@@ -88,7 +88,7 @@ int parse_string_for_func(struct data *ptr)
     parser.compile(expression_string,expression);
 
     double y = expression.value();
-      printf("%19.15f\t%19.15f\n",x,y);
+    printf("%19.3f\t Это X %19.3f\n Это Y",x,y);
     return 0;
 }
 

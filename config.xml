@@ -1,6 +1,6 @@
 <xml>
 	<config>
-		<func>"-0.5*cos(0.5*ptr->x)-0.5"</func>
+		<func>"-0.5*cos(0.5*x)-0.5"</func>
 		<a>-5</a>
 		<b>5</b>
 	</config>

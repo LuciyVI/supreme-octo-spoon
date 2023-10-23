@@ -1,7 +1,7 @@
-<xml>
-	<config>
-		<func>"-0.5*cos(0.5*x)-0.5"</func>
-		<a>-5</a>
-		<b>5</b>
-	</config>
-</xml>
+<?xml version="1.0" encoding="utf-8"?>
+        <config>
+                <func>-0.5*cos(0.5*x)-0.5</func>
+                <a>-5</a>
+                <b>5</b>
+                <x>0.5</x>
+        </config>

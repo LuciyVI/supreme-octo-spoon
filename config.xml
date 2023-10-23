@@ -1,7 +1,9 @@
-<xml>
-	<config>
-		<func>"-0.5*cos(0.5*ptr->x)-0.5"</func>
-		<a>-5</a>
-		<b>5</b>
-	</config>
-</xml>
+<?xml version="1.0" encoding="utf-8"?>
+        <config>
+                <func>(x-2)^2</func>
+                <func_multi>func_x*sin(5*x)</func_multi>
+                <a>0</a>
+                <b>3</b>
+                <x>0.5</x>
+                <q>0.005</q>
+        </config>

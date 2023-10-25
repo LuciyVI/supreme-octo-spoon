@@ -152,11 +152,36 @@ int calc_extremum(struct data *ptr)
     std::mt19937 generatere(random_device());
     std::uniform_int_distribution<> distribution(ptr->a, ptr->b);
     
-    double N = distribution(generatere);
-
-    #ifdef DEBUG 
+    bool Condition = false;
+    double N1 = distribution(generatere);
+    double N2 = distribution(generatere);
+    double N3 = distribution(generatere);
+            std::cout<<"\n>>"<<N1<<"\n "<<std::endl;
+            std::cout<<"\n>>"<<N2<<"\n "<<std::endl;
+            std::cout<<"\n>>"<<N3<<"\n "<<std::endl;
+            std::cout<<"\n>>"<<"Тут цикл"<<"\n "<<std::endl;
+for (; Condition == false; )
+{
+    if (N1 == N2 || N2 == N3 || N1 == N3)
+    {
+        Condition = false;
+        N1 = distribution(generatere);
+        N2 = distribution(generatere);
+        N3 = distribution(generatere);
+        std::cout << "condition false" << std::endl;
+    }
+    else
+    {
+        Condition = true;
+        std::cout << "condition true" << std::endl;
+    }
     
-    // std::cout<<generatere<<std::endl;
+}
+            std::cout<<"\n>>После цикла"<<"\n "<<std::endl;
+            std::cout<<"\n>>"<<N1<<"\n "<<std::endl;
+            std::cout<<"\n>>"<<N2<<"\n "<<std::endl;
+            std::cout<<"\n>>"<<N3<<"\n "<<std::endl;
+    #ifdef DEBUG 
     #endif 
     
     return 0;
@@ -172,13 +197,13 @@ int main()
     open_and_change_config_file(ptr_on_data);
         
 #ifdef DEBUG        
-        std::cout<<data.a<<std::endl;
-        std::cout<<data.b<<std::endl; 
-        std::cout<<data.x<<std::endl; 
-        std::cout<<data.string_func<<std::endl;
-        std::cout<<data.string_func_multi<<std::endl;
-        std::cout<<data.epsel<<std::endl;
-        std::cout<<"Q ="<<data.probability_interval<<"\n"<<std::endl;
+        std::cout<<"Интервал от А"<<data.a<<"\n"<<std::endl;
+        std::cout<<"Интервал от B"<<data.b<<"\n"<<std::endl; 
+        std::cout<<"X "<<data.x<<"\n"<<std::endl; 
+        std::cout<<"Унимодальная функция -- "<<data.string_func<<"\n"<<std::endl;
+        std::cout<<"Мультимодальная функция -- "<<data.string_func_multi<<"\n"<<std::endl;
+        std::cout<<"Эпселант -- "<<data.epsel<<"\n"<<std::endl;
+        std::cout<<"Q - "<<data.probability_interval<<"\n"<<std::endl;
 #endif
     
     parse_string_for_func(ptr_on_data);

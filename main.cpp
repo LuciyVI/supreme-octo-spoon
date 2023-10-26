@@ -8,140 +8,11 @@
 #include <stdlib.h>
 #include "exprtk.hpp"
 #include <random>
+#include "func.hpp"
 
-#define X ptr->x
-#define DEBUG
+// #define DEBUG
 // using namespace std;
 using namespace exprtk;
-
-
-struct data {
-
-
-double x = 0;
-double a , b = 0;
-std::string string_func;
-std::string string_func_multi;
-double result_fx;
-double result_func_multi=0; 
-double probability_interval = 0.0;
-double epsel=0.0;
-
-};
-
-
-void open_and_change_config_file(struct data *ptr)
-{
-
-
-xmlDocPtr doc = xmlParseFile("config.xml");
-xmlNodePtr cur = xmlDocGetRootElement(doc);
-xmlChar*  key;
-
-cur=cur->xmlChildrenNode;
-
-while(cur!=NULL){
-/* Найти подузел ключевого слова */
-
-if(!xmlStrcmp(cur->name,(const xmlChar*)"a")){
-    key=xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
-    char* charString = (char*)key;
-    ptr->a=strtod(charString, NULL);
-}
-if(!xmlStrcmp(cur->name,(const xmlChar*)"b")){
-    key=xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
-    char* charString = (char*)key;
-    ptr->b=strtod(charString, NULL);
-}
-if(!xmlStrcmp(cur->name,(const xmlChar*)"x")){
-    key=xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
-    char* charString = (char*)key;
-    X=strtod(charString, NULL);
-}    
-if(!xmlStrcmp(cur->name,(const xmlChar*)"func")){
-    key=xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
-    char* charString = (char*)key;
-    ptr->string_func = charString;
-
-    
-}    
-
-if(!xmlStrcmp(cur->name,(const xmlChar*)"func_multi")){
-    key=xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
-    char* charString = (char*)key;
-    ptr->string_func_multi = charString;
-
-    
-}  
-if(!xmlStrcmp(cur->name,(const xmlChar*)"q")){
-    key=xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
-    char* charString = (char*)key;
-    ptr->probability_interval = strtod(charString, NULL);
-
-    
-}   
-
-
-
-cur=cur->next;
-
-}
-
-};
-
-
-int parse_string_for_func(struct data *ptr)
-{
-    const std::string expression_string = ptr->string_func;
-    typedef exprtk::symbol_table<double> symbol_table_t;
-    typedef exprtk::expression<double>   expression_t;
-    typedef exprtk::parser<double>       parser_t;
-    
-    
-    symbol_table_t symbol_table;
-    symbol_table.add_variable("x",ptr->x);
-    symbol_table.add_constants();
-
-    expression_t expression;
-    expression.register_symbol_table(symbol_table);
-
-    parser_t parser;
-    parser.compile(expression_string,expression);
-
-    ptr->result_fx= expression.value();
-    printf("\n %19.3f Это result F(x) \n",ptr->result_fx);
-    
-    return 0;
-}
-int parse_string_for_func_multi(struct data *ptr)
-{
-
-    const std::string expression_string = ptr->string_func_multi;
-    typedef exprtk::symbol_table<double> symbol_table_t;
-    typedef exprtk::expression<double>   expression_t;
-    typedef exprtk::parser<double>       parser_t;
-    
-    symbol_table_t symbol_table;
-    symbol_table.add_variable("x",ptr->x);
-    symbol_table.add_variable("func_x",ptr->result_fx);
-    symbol_table.add_constants();
-
-    expression_t expression;
-    expression.register_symbol_table(symbol_table);
-
-    parser_t parser;
-    parser.compile(expression_string,expression);
-
-    ptr->result_func_multi = expression.value();
-    printf("%19.3f Это result multimodul Func  \n",ptr->result_func_multi);
-    
-    return 0;
-}
-
-int calc_epsel(struct data *ptr)
-{
-    return ptr->epsel=(ptr->b-ptr->a)/ptr->probability_interval;
-}
 
 int calc_extremum(struct data *ptr)
 {
@@ -181,10 +52,46 @@ for (; Condition == false; )
             std::cout<<"\n>>"<<N1<<"\n "<<std::endl;
             std::cout<<"\n>>"<<N2<<"\n "<<std::endl;
             std::cout<<"\n>>"<<N3<<"\n "<<std::endl;
-    #ifdef DEBUG 
-    #endif 
     
+    ptr->x=N1;
+    
+    double y1 = parse_string_for_func(ptr);
+    #ifdef DEBUG
+    
+    std::cout<<"ptr->x=N1 :"<<ptr->x<<std::endl;
+    std::cout<<std::fixed<<"Result y1  :"<<y1<<std::endl;
+    
+    #endif
+
+    ptr->x=N2;
+    
+    double y2 = parse_string_for_func(ptr);
+
+    #ifdef DEBUG
+    
+    std::cout<<"ptr->x=N2 :"<<ptr->x<<std::endl;
+    std::cout<<std::fixed<<"Result y2  :"<<y1<<std::endl;
+    
+    #endif
+
+    ptr->x=N3;
+    
+    double y3 = parse_string_for_func(ptr);
+
+    #ifdef DEBUG
+    
+    std::cout<<"ptr->x=N3:"<<ptr->x<<std::endl;
+    std::cout<<std::fixed<<"Result y3  :"<<y1<<std::endl;
+    
+    #endif
+
+    bool value = _check_value(y1,y2,y3);
+    
+    std::cout<<value<<std::endl;
+    
+
     return 0;
+
 
 };
 

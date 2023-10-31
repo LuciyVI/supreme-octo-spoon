@@ -95,6 +95,18 @@ for (; Condition == false; )
 
 };
 
+
+
+
+
+double cycle_calc_for_table(struct data *ptr)
+{
+        ptr->probability_P = 0.90;
+        ptr->probability_Q = 0.005;
+    
+       
+        return 0;
+}
 int main()
 {
 
@@ -115,8 +127,10 @@ int main()
     
     parse_string_for_func(ptr_on_data);
     parse_string_for_func_multi(ptr_on_data);
-    calc_extremum(ptr_on_data);
+    // calc_extremum(ptr_on_data);
+    cycle_calc_for_table(ptr_on_data);
+
     return 0;
 
 }
-
+    

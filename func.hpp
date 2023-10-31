@@ -18,15 +18,17 @@ using namespace exprtk;
 struct data {
 
 
-double x = 0;
-double a , b = 0;
-std::string string_func;
-std::string string_func_multi;
-double result_fx;
-double result_func_multi=0; 
-double probability_interval = 0.0;
-double epsel=0.0;
-
+    double x = 0;
+    double a , b = 0;
+    std::string string_func;
+    std::string string_func_multi;
+    double result_fx;
+    double result_func_multi=0; 
+    double probability_interval = 0.0;
+    double epsel=0.0;
+    double probability_P = 0.0;
+    double probability_Q = 0.0;
+    double Global_N_table[32][32];
 };
 
 
@@ -168,3 +170,16 @@ bool Condition = false;
     }
     return Condition;
 }   
+double calc_N(struct data *ptr)
+{
+
+    std::cout<<"P точек"<<ptr->probability_P<<std::endl;
+    std::cout<<"Q точек"<<ptr->probability_Q<<std::endl;    
+    double N = ceil((std::log(1-ptr->probability_P))/(std::log(1-ptr->probability_Q)));
+    std::cout<<"N точек"<<N<<std::endl;
+
+
+
+    return N;
+};
+

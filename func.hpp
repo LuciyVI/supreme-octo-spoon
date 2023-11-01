@@ -28,7 +28,7 @@ struct data {
     double epsel=0.0;
     double probability_P = 0.0;
     double probability_Q = 0.0;
-    double Global_N_table[32][32];
+    double Global_N_table[10][20];
 };
 
 
@@ -172,12 +172,12 @@ bool Condition = false;
 }   
 double calc_N(struct data *ptr)
 {
-
-    std::cout<<"P точек"<<ptr->probability_P<<std::endl;
-    std::cout<<"Q точек"<<ptr->probability_Q<<std::endl;    
     double N = ceil((std::log(1-ptr->probability_P))/(std::log(1-ptr->probability_Q)));
-    std::cout<<"N точек"<<N<<std::endl;
-
+    #ifdef DEBUG
+    // std::cout<<"P точек"<<ptr->probability_P<<std::endl;
+    // std::cout<<"Q точек"<<ptr->probability_Q<<std::endl;    
+    // std::cout<<"N точек"<<N<<std::endl;
+    #endif
 
 
     return N;

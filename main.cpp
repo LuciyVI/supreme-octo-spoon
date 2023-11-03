@@ -65,11 +65,21 @@ double cycle_calc_for_table(struct data *ptr)
         std::cout<<"+-----+"<<"-----+"<<"-----+"<<"------+"<<"-----+"<<"------+"<<"------+"<<"------+"<<"------+"<<"------+"<<"------+"<<std::endl;
         std::cout<<"| q/P |"<<"0.90"<<" |"<<"0.91"<<" | 0.92"<<" |"<<" 0.93"<<" |"<<"0.94"<<" | 0.95"<<" | 0.96"<<" | 0.97 " <<"| 0.98"<<" | 0.99 |" <<std::endl;
         std::cout<<"+-----+"<<"-----+"<<"-----+"<<"------+"<<"------+"<<"-----+"<<"------+"<<"------+"<<"------+"<<"------+"<<"------+"<<std::endl;
-        for(int i=0;i<=10;i++)
+        int j=0;
+    
+        std::cout<<ptr->Global_N_table[0][0]<<std::endl;
+        for(int i=0;i<=10;)
         {
-            
-        }
-        return 0;
+              
+            std::cout<<"\n+-----+"<<"-----+"<<"-----+"<<"------+"<<"-----+"<<"------+"<<"------+"<<"------+"<<"------+"<<"------+"<<"------+"<<std::endl;
+            std::cout<<"|" <<ptr->probability_Q << "|"<<ptr->Global_N_table[i][j]<<" |"<<ptr->Global_N_table[i][j+1]<<" | "<<ptr->Global_N_table[i][j+2]<<" |"<<ptr->Global_N_table[i][j+3]<<" |"<<ptr->Global_N_table[i][j+4]<<" |"<< ptr->Global_N_table[i][j+5]<<" | "<<ptr->Global_N_table[i][j+6]<<" |"  <<  ptr->Global_N_table[i][j+7]<<" |"<<ptr->Global_N_table[i][j+8] <<"|\n" <<std::endl;
+            std::cout<<"+-----+"<<"-----+"<<"-----+"<<"------+"<<"------+"<<"-----+"<<"------+"<<"------+"<<"------+"<<"------+"<<"------+\n"<<std::endl;
+            ptr->probability_Q+=0.005;
+        
+        i++;
+        }   
+    
+            return 0;
 };
 
 int main()
@@ -94,7 +104,7 @@ int main()
     parse_string_for_func_multi(ptr_on_data);
     // calc_extremum(ptr_on_data);
     cycle_calc_for_table(ptr_on_data);
-    int i,j;
+    
     
     // for(i=0;i<10;i++){
     

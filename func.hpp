@@ -28,7 +28,7 @@ struct data {
     double epsel=0.0;
     double probability_P = 0.0;
     double probability_Q = 0.0;
-    double Global_N_table[10][20];
+    double Global_N_table[14][24];
 };
 
 

@@ -9,7 +9,7 @@
 #include "exprtk.hpp"
 #include <random>
 
-#define X ptr->x
+
 // #define DEBUG
 // using namespace std;
 using namespace exprtk;
@@ -58,7 +58,7 @@ if(!xmlStrcmp(cur->name,(const xmlChar*)"b")){
 if(!xmlStrcmp(cur->name,(const xmlChar*)"x")){
     key=xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
     char* charString = (char*)key;
-    X=strtod(charString, NULL);
+    ptr->x=strtod(charString, NULL);
 }    
 if(!xmlStrcmp(cur->name,(const xmlChar*)"func")){
     key=xmlNodeListGetString(doc,cur->xmlChildrenNode,1);

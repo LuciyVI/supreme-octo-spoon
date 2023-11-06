@@ -9,10 +9,13 @@
 #include "exprtk.hpp"
 #include <random>
 #include "func.hpp"
+#include <boost/format.hpp>
+
 
 #define DEBUG
 // using namespace std;
 using namespace exprtk;
+
 
 int calc_extremum(struct data *ptr)
 {
@@ -60,27 +63,35 @@ double cycle_calc_for_table(struct data *ptr)
 
         return 0;
 };
-    int paint_table(struct data *ptr)
-{
-        std::cout<<"+-----+"<<"-----+"<<"-----+"<<"------+"<<"-----+"<<"------+"<<"------+"<<"------+"<<"------+"<<"------+"<<"------+"<<std::endl;
-        std::cout<<"| q/P |"<<"0.90"<<" |"<<"0.91"<<" | 0.92"<<" |"<<" 0.93"<<" |"<<"0.94"<<" | 0.95"<<" | 0.96"<<" | 0.97 " <<"| 0.98"<<" | 0.99 |" <<std::endl;
-        std::cout<<"+-----+"<<"-----+"<<"-----+"<<"------+"<<"------+"<<"-----+"<<"------+"<<"------+"<<"------+"<<"------+"<<"------+"<<std::endl;
-        int j=0;
-    
-        std::cout<<ptr->Global_N_table[0][0]<<std::endl;
-        for(int i=0;i<=10;)
-        {
-              
-            std::cout<<"\n+-----+"<<"-----+"<<"-----+"<<"------+"<<"-----+"<<"------+"<<"------+"<<"------+"<<"------+"<<"------+"<<"------+"<<std::endl;
-            std::cout<<"|" <<ptr->probability_Q << "|"<<ptr->Global_N_table[i][j]<<" |"<<ptr->Global_N_table[i][j+1]<<" | "<<ptr->Global_N_table[i][j+2]<<" |"<<ptr->Global_N_table[i][j+3]<<" |"<<ptr->Global_N_table[i][j+4]<<" |"<< ptr->Global_N_table[i][j+5]<<" | "<<ptr->Global_N_table[i][j+6]<<" |"  <<  ptr->Global_N_table[i][j+7]<<" |"<<ptr->Global_N_table[i][j+8] <<"|\n" <<std::endl;
-            std::cout<<"+-----+"<<"-----+"<<"-----+"<<"------+"<<"------+"<<"-----+"<<"------+"<<"------+"<<"------+"<<"------+"<<"------+\n"<<std::endl;
-            ptr->probability_Q+=0.005;
+   int paint_table(struct data *ptr)
+{       
+
+        std::string str1 = "\n +--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+ \n";
+        std::string str2 = "|     q/P      |     0.90     |      0.91    |     0.92     |      0.93    |     0.94     |      0.95    |      0.96    |    0.97      |     0.98     |     0.99     | ";
+ 
+        std::cout << boost::format("%1$10d %2$10d %3$10d")% str1 % str2 % str1  << std::endl;
         
+        
+        int j=0;
+
+
+        for(int i=0;i<20;)
+        {
+
+            
+            std::cout << boost::format("%1$13d %2$10d %3$13d %4$15d %5$13d %6$15d %7$13d %8$15d %9$15d %10$15d %11$12d %12$13d " ) % str1 % ptr->probability_Q % ptr->Global_N_table[j][i] % ptr->Global_N_table[j+1][i] % ptr->Global_N_table[j+2][i] % ptr->Global_N_table[j+3][i] % ptr->Global_N_table[j+4][i] % ptr->Global_N_table[j+5][i]% ptr->Global_N_table[j+6][i] % ptr->Global_N_table[j+7][i]%  ptr->Global_N_table[j+8][i]% ptr->Global_N_table[j+9][i] << std::endl;
+            
+            
+            ptr->probability_Q+=0.005;
+            
         i++;
-        }   
-    
+        }
+
             return 0;
 };
+
+
+
 
 int main()
 {
@@ -106,12 +117,6 @@ int main()
     cycle_calc_for_table(ptr_on_data);
     
     
-    // for(i=0;i<10;i++){
-    
-    //         for(j=0;j<20;j++){
-    //         std::cout<<std::fixed<<data.Global_N_table[i][j]<<std::endl;
-    //     }
-    // }
     paint_table(ptr_on_data);
     return 0;
 

@@ -105,7 +105,7 @@ double parse_string_for_func(struct data *ptr)
 
     symbol_table.add_variable("x",ptr->x);
     symbol_table.add_constants();
-
+    std::cout<<"X in parse_in_func"<<ptr->x<<std::endl;
     expression_t expression;
     expression.register_symbol_table(symbol_table);
 
@@ -173,6 +173,7 @@ bool Condition = false;
 double calc_N(struct data *ptr)
 {
     double N = ceil((std::log(1-ptr->probability_P))/(std::log(1-ptr->probability_Q)));
+
     #ifdef DEBUG
     // std::cout<<"P точек"<<ptr->probability_P<<std::endl;
     // std::cout<<"Q точек"<<ptr->probability_Q<<std::endl;    
@@ -182,4 +183,35 @@ double calc_N(struct data *ptr)
 
     return N;
 };
+void calc_func_y(struct data *ptr) {
+    double x = 10;
+    double param = 0;
+    double func_x = 0;
+    int j = 0;
+srand(static_cast<unsigned int>(time(0)));
+for(int i =0; i<12;i++){
+for(int j=0;j<24; ){
+    double param = ptr->Global_N_table[j][i];
+    std::cout<<"PARAM : "<<param<<std::endl;
+    for(int i = 0; i<param; ++i){
+    std::cout<<"iteratition "<<i<<"\n"<<std::endl;
+    ptr->x = ptr->a + (ptr->b - ptr->a) * rand() / RAND_MAX;
+    // ptr->x = ptr->a + static_cast<double>(rand()) / RAND_MAX * (ptr->b - ptr->a);
+    std::cout<<"PARAM : "<<param<<std::endl;
+    func_x = parse_string_for_func(ptr);
+    std::cout<<std::fixed<<x<<std::endl;
+    std::cout<<std::fixed<<func_x<<std::endl;
+    if(func_x < x)
+    {
+        
+    x=func_x;
 
+
+    }
+    j++;
+    }
+
+}
+}
+    std::cout<<std::fixed<<"Min :"<<x<<std::endl;
+};

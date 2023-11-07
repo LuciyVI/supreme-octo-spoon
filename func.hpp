@@ -29,6 +29,9 @@ struct data {
     double probability_P = 0.0;
     double probability_Q = 0.0;
     double Global_N_table[14][24];
+    double Global_Fx_table[14][24];
+    double Global_Fx_Multi_table[14][24];
+    double fx = 0.0;
 };
 
 
@@ -67,8 +70,14 @@ if(!xmlStrcmp(cur->name,(const xmlChar*)"func")){
 
     
 }    
+if(!xmlStrcmp(cur->name,(const xmlChar*)"fx")){
+    key=xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
+    char* charString = (char*)key;
+    ptr->fx =strtod(charString, NULL);
 
-if(!xmlStrcmp(cur->name,(const xmlChar*)"func_multi")){
+    
+}  
+if(!xmlStrcmp(cur->name,(const xmlChar*)"multi")){
     key=xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
     char* charString = (char*)key;
     ptr->string_func_multi = charString;
@@ -105,7 +114,6 @@ double parse_string_for_func(struct data *ptr)
 
     symbol_table.add_variable("x",ptr->x);
     symbol_table.add_constants();
-    std::cout<<"X in parse_in_func"<<ptr->x<<std::endl;
     expression_t expression;
     expression.register_symbol_table(symbol_table);
 
@@ -120,7 +128,7 @@ double parse_string_for_func(struct data *ptr)
     #endif
     
     return expression.value();
-}
+};
 double parse_string_for_func_multi(struct data *ptr)
 {
 
@@ -146,30 +154,13 @@ double parse_string_for_func_multi(struct data *ptr)
 #endif
 
     return expression.value();
-}
+};
 
 int calc_epsel(struct data *ptr)
 {
     return ptr->epsel=(ptr->b-ptr->a)/ptr->probability_interval;
-}
-
-bool _check_value(double N1, double N2 , double N3)
-{
-bool Condition = false;
-
-    if (N1 == N2 || N2 == N3 || N1 == N3)
-    {
-        Condition = false;
-        std::cout << "condition false" << std::endl;
-    }
-    else
-    {
-        Condition = true;
-        std::cout << "condition true" << std::endl;
-
-    }
-    return Condition;
-}   
+};
+ 
 double calc_N(struct data *ptr)
 {
     double N = ceil((std::log(1-ptr->probability_P))/(std::log(1-ptr->probability_Q)));
@@ -183,35 +174,56 @@ double calc_N(struct data *ptr)
 
     return N;
 };
-void calc_func_y(struct data *ptr) {
+double calc_func_x(struct data *ptr ,double n)
+{
     double x = 10;
     double param = 0;
     double func_x = 0;
-    int j = 0;
+    // std::cout<<std::fixed<<"n = "<<n<<std::endl;
+           for(int ij = 0; ij<n; ++ij){
+                // std::cout<<"iteratition "<<ij<<"\n"<<std::endl;
+                ptr->x = ptr->a + (ptr->b - ptr->a) * rand() / RAND_MAX;
+
+                func_x = parse_string_for_func(ptr);
+                std::cout<<std::fixed<<"func_x"<<func_x<<std::endl;
+                if(func_x<x)
+                {
+                        
+                        
+                    x=func_x;
+                    #ifdef DEBUG    
+                    std::cout<<std::fixed<<"Minimun in iteration :"<<ij<<" : "<<x<<std::endl;   
+                    #endif
+                };
+                
+}   
+    #ifdef DEBUG
+    std::cout<<std::fixed<<"Minimun x"<<x<<std::endl;
+    #endif
+    return x;
+};
+
+void calc_func_y(struct data *ptr) {
 srand(static_cast<unsigned int>(time(0)));
-for(int i =0; i<12;i++){
-for(int j=0;j<24; ){
-    double param = ptr->Global_N_table[j][i];
-    std::cout<<"PARAM : "<<param<<std::endl;
-    for(int i = 0; i<param; ++i){
-    std::cout<<"iteratition "<<i<<"\n"<<std::endl;
-    ptr->x = ptr->a + (ptr->b - ptr->a) * rand() / RAND_MAX;
-    // ptr->x = ptr->a + static_cast<double>(rand()) / RAND_MAX * (ptr->b - ptr->a);
-    std::cout<<"PARAM : "<<param<<std::endl;
-    func_x = parse_string_for_func(ptr);
-    std::cout<<std::fixed<<x<<std::endl;
-    std::cout<<std::fixed<<func_x<<std::endl;
-    if(func_x < x)
-    {
+for(int i =0; i<10;i++){
+    int j = 0;
+
+                        for(j;j<20; ){
+                            double param = ptr->Global_N_table[i][j];
+                            #ifdef DEBUG
+                            std::cout<<"PARAM : "<<param<<std::endl;
+                            #endif
+                                ptr->Global_Fx_table[i][j] = calc_func_x(ptr , param);
+
+                                    #ifdef DEBUG
+                                        std::cout<<std::fixed<<"Iteration J  :"<<j<<"Iteration I : "<<i<<std::endl;
+                                        std::cout<<std::fixed<<"Min Glob:"<<ptr->Global_Fx_table[i][j]<<std::endl;
+                                    #endif    
+                                        j++;
+
+
+
         
-    x=func_x;
-
-
-    }
-    j++;
-    }
-
-}
-}
-    std::cout<<std::fixed<<"Min :"<<x<<std::endl;
+                                        }                        
+                        }
 };

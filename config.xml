@@ -2,6 +2,9 @@
         <config>
                 <func>-0.5*cos(0.5*x)-0.5</func>
                 <a>-5</a>
-                <b>5</b>
-                <x>0.5</x>
+                <b>2</b>
+                <x>0.0</x>
+		<fx>0.0</fx>
+		<multi>FX*sin(5*x)</multi>
         </config>
+                  

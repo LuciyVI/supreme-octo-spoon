@@ -9,7 +9,7 @@
 #include "exprtk.hpp"
 #include <random>
 
-
+#define FX ptr->fx 
 // #define DEBUG
 // using namespace std;
 using namespace exprtk;
@@ -139,9 +139,9 @@ double parse_string_for_func_multi(struct data *ptr)
     
     symbol_table_t symbol_table;
     symbol_table.add_variable("x",ptr->x);
-    symbol_table.add_variable("func_x",ptr->result_fx);
+    symbol_table.add_variable("fx",ptr->fx);
     symbol_table.add_constants();
-
+    
     expression_t expression;
     expression.register_symbol_table(symbol_table);
 
@@ -227,3 +227,30 @@ for(int i =0; i<10;i++){
                                         }                        
                         }
 };
+double ret_y(int i , int j , struct data *ptr)
+	{
+		return ptr->Global_Fx_table[i][j];
+	}
+void calc_func_multi(struct data *ptr)
+		{
+			#ifdef DEBUG
+			std::cout << " FX for multi =  " << ptr->fx << std::endl;		
+			#endif
+			for(int i=0; i<10; i++ )
+			{
+				int j = 0;
+				for(j;j <= 20;j++){
+		    		ptr->fx = ret_y(i,j,ptr);
+   	                ptr->x = ptr->a + (ptr->b - ptr->a) * rand() / RAND_MAX;
+
+                    ptr->Global_Fx_Multi_table[i][j] = parse_string_for_func_multi(ptr);
+                    
+                    #ifdef DEBUG
+                    std::cout << " Result_fun_multi = " << ptr->result_func_multi << std::endl; 
+                    std::cout << " FX = " << FX << std::endl; 
+                    std::cout << " Multi func = " << ptr->Global_Fx_Multi_table[i][j] << std::endl; 
+                    #endif
+                }
+			}
+
+		}
